@@ -44,7 +44,7 @@ optional arguments:
                         Important: include the / after the directory name!
   -l , --light_intensity
                         light intensity (int) value must be between 30 and
-                        255, the larger the numeber the brighter the light
+                        255, the larger the number the brighter the light
   -p , --time_period    Duration of light period, within a 24 hour cycle.
                         Always starts with the light period. Must be specified
                         in hours.
