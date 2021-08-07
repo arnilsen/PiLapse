@@ -45,7 +45,7 @@ epilog = 'Additional info: \n \
 
 parser.add_argument('-t', '--time_sec', type=int, metavar = '', required = True, help = 'enter the period between images in seconds')
 parser.add_argument('-o', '--output', type=str, metavar = '', required = True, help = 'path to output directory, e.g. /home/pi/timelapse/. Important: include the / after the directory name!')
-parser.add_argument('-l', '--light_intensity', type=int, metavar = '', required = True, choices = range(30,256), help = 'light intensity (int) value must be between 30 and 255, the larger the numeber the brighter the light')
+parser.add_argument('-l', '--light_intensity', type=int, metavar = '', required = True, choices = range(30,256), help = 'light intensity (int) value must be between 30 and 255, the larger the number the brighter the light')
 parser.add_argument('-p', '--time_period', type=int, metavar = '', required = True, choices = range(0,25), help = 'Duration of light period, within a 24 hour cycle. Always starts with the light period. Must be specified in hours.')
 args = parser.parse_args()
 
