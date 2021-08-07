@@ -31,7 +31,8 @@ Also, the GPIO pins also need to be accessible. To do this run:
 Run `pilapse.py` to view the script options
 
 
-```usage: pilapse.py [-h] -t  -o  -l  -p
+```
+usage: pilapse.py [-h] -t  -o  -l  -p
 
 Takes a timelapse at the user defined intervals. It flicks the LEDs on 1 sec
 before imaging
