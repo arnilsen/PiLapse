@@ -11,6 +11,8 @@ I have used a Raspberry Pi 4 (4 Gb memory), with the HQ camera with the 6 mm, wi
 The lights are 12V LED strips that are controlled by the pi via a mosfet connected to pin 17.
 
 ![alt text](https://github.com/arnilsen/PiLapse/blob/main/files/picam.jpg?raw=true)
+![alt text](https://github.com/arnilsen/PiLapse/blob/main/files/pilapse_hardware.jpg?raw=true)
+
 
 **Running the script**
 
