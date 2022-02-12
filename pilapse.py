@@ -27,7 +27,6 @@
 
 
 from time import sleep
-import picamera
 from datetime import datetime, timedelta
 import subprocess
 import os
@@ -60,12 +59,13 @@ pi = pigpio.pi()
 
 def check_dir(dname):
     #checks if the directory exists or makes a new one
-
-    if os.path.isdir(dname):
-        return dname
+    path = os.path.join(dname, 'timestamped')
+    if os.path.isdir(dname):        
+        os.mkdir(path)
+        
     else:
         try:
-            os.mkdir(dname)
+            os.makedirs(path)
         except OSError:
             print('Creation of directory {} failed'.format(dname))
             sys.exit(1)
@@ -75,6 +75,7 @@ def check_dir(dname):
 def tlapse():
     # initialise the times for the first 24 hour time period
     image = 0
+    START_TIME = datetime.now()
     current_time = datetime.now()
     hours_added = timedelta(hours = t_period)
     new_time = current_time + hours_added
@@ -90,11 +91,19 @@ def tlapse():
                 pi.set_PWM_dutycycle(17, light_int)
 
                 try:
-                    filename = 'img{}_'.format(str(image).zfill(4)) + datetime.now().strftime("%d_%m_%y-%H:%M:%S") + '.jpg' #zfill pads the string image by the number specified, 4
-                    cmd = 'raspistill -t 100 -ex night -n -o ' + out_dir + filename # command to call from the terminal. -n = no preview, -t time lag in ms
+                    now_time = datetime.now()
+                    pic_time = now_time.strftime("%d_%m_%y-%H_%M_%S")
+                    pic_name = 'img{}_'.format(str(image).zfill(4)) + pic_time + '.jpg'
+                    time_elaps = now_time - START_TIME
+                    cmd = 'raspistill -t 100 -ex night -n -o ' + out_dir + pic_name # command to call from the terminal. -n = no preview, -t time lag in ms
+                    t_stamp = "T: %02d:%02d:%02d:%02d" % (time_elaps.days, time_elaps.seconds // 3600, time_elaps.seconds // 60 % 60, time_elaps.seconds % 60)                    
+                    print(t_stamp)
                     subprocess.call(cmd, shell = True)
+                    #sleep(2) # just incase there was a delay in the time it took to write image
+                    stamp_cmd = "convert {}/{} -pointsize 90 -fill white -annotate +3350+2900 '{}' {}/timestamped/{}".format(out_dir, pic_name, t_stamp, out_dir, pic_name)
+                    subprocess.call(stamp_cmd, shell = True)
                     image += 1
-                    sleep(WAIT_TIME)
+                    sleep(WAIT_TIME - 4)
                 except KeyboardInterrupt:
                     print('\n\nTimelapse has ended. There are {} images in {}\n\
                     If you want to create a movie run "ffmpeg -f image2 -pattern_type glob -r 3 -i img*.jpg  foo.avi"\n'.format(str(image), str(out_dir)))
@@ -113,13 +122,22 @@ def tlapse():
             # night period
             while new_time < datetime.now() < new_time_24h:
                 try:
-                    filename = 'img{}_'.format(str(image).zfill(4)) + datetime.now().strftime("%d_%m_%y-%H:%M:%S") + '.jpg' #zfill pads the string image by the number specified, 4
+                    now_time = datetime.now()
+                    pic_time = now_time.strftime("%d_%m_%y-%H_%M_%S")
+                    pic_name = 'img{}_'.format(str(image).zfill(4)) + pic_time + '.jpg'
+                    time_elaps = now_time - START_TIME
                     pi.set_PWM_dutycycle(17, light_int)
-                    cmd = 'raspistill -t 100 -ex night -n -o ' + out_dir + filename # command to call from the terminal. -n = no preview, -t time lag in ms
+                    cmd = 'raspistill -t 100 -ex night -n -o ' + out_dir + pic_name # command to call from the terminal. -n = no preview, -t time lag in ms
+                    t_stamp = "T: %02d:%02d:%02d:%02d" % (time_elaps.days, time_elaps.seconds // 3600, time_elaps.seconds // 60 % 60, time_elaps.seconds % 60)                    
+                    print(t_stamp)
                     subprocess.call(cmd, shell = True)
-                    image += 1
+                    #sleep(2) # just incase there was a delay in the time it took to write image
                     pi.set_PWM_dutycycle(17, 0)
-                    sleep(WAIT_TIME)
+                    stamp_cmd = "convert {}/{} -pointsize 90 -fill white -annotate +3350+2900 '{}' {}/timestamped/{}".format(out_dir, pic_name, t_stamp, out_dir, pic_name)
+                    subprocess.call(stamp_cmd, shell = True)
+                    image += 1
+                    sleep(WAIT_TIME - 4)
+                                        
                 except KeyboardInterrupt:
                     print('\n\nTimelapse has ended. There are {} images in {}\n\
                     If you want to create a movie run "ffmpeg -f image2 -pattern_type glob -r 3 -i img*.jpg  foo.avi"\n'.format(str(image), str(out_dir)))
