@@ -103,7 +103,7 @@ def tlapse():
                     stamp_cmd = "convert {}/{} -pointsize 90 -fill white -annotate +3350+2900 '{}' {}/timestamped/{}".format(out_dir, pic_name, t_stamp, out_dir, pic_name)
                     subprocess.call(stamp_cmd, shell = True)
                     image += 1
-                    sleep(WAIT_TIME - 4)
+                    sleep(WAIT_TIME - 3.96)
                 except KeyboardInterrupt:
                     print('\n\nTimelapse has ended. There are {} images in {}\n\
                     If you want to create a movie run "ffmpeg -f image2 -pattern_type glob -r 3 -i img*.jpg  foo.avi"\n'.format(str(image), str(out_dir)))
@@ -136,7 +136,7 @@ def tlapse():
                     stamp_cmd = "convert {}/{} -pointsize 90 -fill white -annotate +3350+2900 '{}' {}/timestamped/{}".format(out_dir, pic_name, t_stamp, out_dir, pic_name)
                     subprocess.call(stamp_cmd, shell = True)
                     image += 1
-                    sleep(WAIT_TIME - 4)
+                    sleep(WAIT_TIME - 3.90)
                                         
                 except KeyboardInterrupt:
                     print('\n\nTimelapse has ended. There are {} images in {}\n\
