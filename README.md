@@ -12,7 +12,7 @@ There is some time drift with the script cause by using sleep between images. I 
 
 I have used a Raspberry Pi 4 (4 Gb memory), with the HQ camera with the 6 mm, wide angle lens. I also used the standard Raspberry Pi OS, rather than using a headless option. It makes the setting up of the camera much simpler. The camera is mounted on a tripod for adjustment and stability.
 
-The lights are 12V LED strips that are controlled by the Pi via a mosfet connected to pin 17.
+The lights are 12V LED strips that are controlled by the Pi via a mosfet connected to pin 17 (GPIO 17).
 
 ![alt text](https://github.com/arnilsen/PiLapse/blob/main/files/box_setup.jpg?raw=true)
 ![alt text](https://github.com/arnilsen/PiLapse/blob/main/files/pilapse_hardware.jpg?raw=true)
